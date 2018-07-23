@@ -1,0 +1,18 @@
+services:
+
+    UserBundle\DataFixtures\UsersFixtures:
+        tags: [doctrine.fixture.orm]
+
+    user.user-factory.dbal:
+        class: UserBundle\Factory\DbalUserFactory
+
+    user.mapper.dbal:
+        class: UserBundle\Repository\DbalUserMapper
+
+    user.read-repository.dbal:
+        class: UserBundle\Repository\Read\DbalUserReadRepository
+        arguments: ["@doctrine.dbal.default_connection", "@user.user-factory.dbal"]
+
+    user.write-repository.dbal:
+        class: UserBundle\Repository\Write\DbalUserWriteRepository
+        arguments: ["@doctrine.dbal.default_connection", "@user.user-factory.dbal", "@user.mapper.dbal"]
